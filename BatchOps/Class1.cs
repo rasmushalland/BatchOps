@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace BatchOps
 {
-	static class EmptyArray<T>
-	{
-		public static T[] Instance = new T[0];
-	}
+    public class Class1
+    {
+    }
 }

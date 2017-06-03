@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 
-namespace ClrBasics.Test
+namespace BatchOps.Test
 {
 	[TestFixture]
 	public class BatchLookupTest : UnitTestBase

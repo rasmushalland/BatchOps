@@ -6,7 +6,7 @@ using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 
-namespace ClrBasics
+namespace BatchOps
 {
 	public class BatchLookupManager
 	{

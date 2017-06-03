@@ -6,7 +6,7 @@ using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClrBasics
+namespace BatchOps
 {
 	public class ThreadCycleStopWatch
 	{
