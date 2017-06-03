@@ -336,16 +336,16 @@ namespace BatchOps
 		/// </summary>
 		/// <remarks>
 		/// TODO:
-		/// - resolve fra rod ville måske være at foretrække aht. stakdybde, samt for at få bedre stakke ifbm. profiling og exceptions.
+		/// - Resolve from root might be better in terms of avoiding stack overflow, and to get better/more readable stacks when profiling and getting exceptions.
 		/// - resolve bør aht. exception-stakke når det er muligt være fra opslagsstedet. Kan man undgå at roden behøver at lave opslag, fx. ved at den informerer batch-objekterne om 
 		///   at der ikke er flere iterationer/poster? tror det ikke, hver post kan lave vilkårligt mange opslag.
 		/// 
 		/// </remarks>
 		public static IEnumerable<T> BatchLookupResolve<T>(IEnumerable<Task<T>> enumerable, BatchLookupManager lookupManager)
 		{
-			// Vil gerne begrænse antal elementer, vi kan vente på.
-			// Dels for at øge sandsynligheden for de stadig er i noget cpu-cache,
-			// men mest for ikke at holde et potentielt stort set objekter ilive.
+			// Try to limit the number of elements we might be awaiting.
+			// We do this partially to make it more likely that we remain in the cpu cache,
+			// but mainly in an attempt to avoid keeping a potentially large number of objects alive.
 			var initialBufferSize = 2000;
 			int? bufferSize = null;
 
@@ -381,9 +381,8 @@ namespace BatchOps
 					if (notCompletedCount == 0)
 						yield break;
 
-					// Resolve noget. Hvis der ikke er en der er fyldt op, tager den med flest ventende. Kunne også godt resolve alle, men
-					// måske resten bliver mere mere effektive (får flere i kø), når vi resolver 
-					// den med flest.
+					// Resolve something. If no request queues are filled, we choose the one with the most requests.
+					// We don't resolve everything, as that would problably reduce the batch size and latency gains for those lookups.
 					var bl = lookupManager.BatchLookups.Count != 0 ? lookupManager.BatchLookups.OrderByDescending(br => br.PendingLookups).First() : null;
 					if (bl != null && bl.PendingLookups != 0)
 					{
@@ -392,8 +391,8 @@ namespace BatchOps
 					}
 					else
 					{
-						// Der er ikke noget vi kan gøre - de må vente på noget andet end os. 
-						// Så vi må vente på dem.
+						// There is nothing we can do - they must be waiting for something else.
+						// So we must wait for them.
 
 						var task = buf.Peek();
 						task.GetAwaiter().GetResult();
@@ -404,7 +403,7 @@ namespace BatchOps
 						var task = buf.Peek();
 						if (!task.IsCompleted)
 						{
-							// må resolve noget, og så tage en runde til.
+							// We need to resolve something and then continue.
 							break;
 						}
 
@@ -412,7 +411,7 @@ namespace BatchOps
 						if (task.IsFaulted)
 						{
 							task.GetAwaiter().GetResult();
-							throw new Exception("Der skal da komme en exception.");
+							throw new Exception("Strange - should really have gotten an exception in the line above.");
 						}
 						yield return task.Result;
 					}

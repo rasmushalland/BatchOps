@@ -20,7 +20,7 @@ namespace BatchOps.Test
 			Func<int, Task<KeyValuePair<int, string>>> GetSingle_Batched = key =>
 				lookupManager.LookupNullable(key, itemsBatch => {
 					batches.Add(itemsBatch);
-					return itemsBatch.Select(item => new KeyValuePair<int, string>(item, "Værdi for " + item)).ToList();
+					return itemsBatch.Select(item => new KeyValuePair<int, string>(item, "Value for " + item)).ToList();
 				}, v => v.Key, 100);
 
 			List<string> results = items.
@@ -31,7 +31,7 @@ namespace BatchOps.Test
 				BatchLookupResolve(lookupManager).
 				ToList();
 
-			List<string> expected = items.Select(item => "Værdi for " + item).ToList();
+			List<string> expected = items.Select(item => "Value for " + item).ToList();
 			Console.WriteLine("Items: " + string.Join("; ", results));
 			AreEqualSequences(expected, results);
 			AreEqualSequences(new[] { "0,1,2,3,4,5,6,7,8,9" }, batches.Select(b => b.Select(i => i.ToString()).StringJoin(",")));
@@ -49,8 +49,8 @@ namespace BatchOps.Test
 					batches.Add(itemsBatch);
 					return itemsBatch.SelectMany(item => new[]
 					{
-						new KeyValuePair<int, string>(item, "Værdi 1 for " + item),
-						new KeyValuePair<int, string>(item, "Værdi 2 for " + item),
+						new KeyValuePair<int, string>(item, "Value 1 for " + item),
+						new KeyValuePair<int, string>(item, "Value 2 for " + item),
 					}).ToList();
 				}, v => v.Key, 100);
 
@@ -62,7 +62,7 @@ namespace BatchOps.Test
 				BatchLookupResolve(lookupManager).
 				ToList();
 
-			List<string> expected = items.Select(item => "Værdi 1 for " + item + "_Værdi 2 for " + item).ToList();
+			List<string> expected = items.Select(item => "Value 1 for " + item + "_Value 2 for " + item).ToList();
 			Console.WriteLine("Items: " + string.Join("; ", results));
 			AreEqualSequences(expected, results);
 			AreEqualSequences(new[] { "0,1,2,3,4,5,6,7,8,9" }, batches.Select(b => b.Select(i => i.ToString()).StringJoin(",")));
@@ -80,8 +80,8 @@ namespace BatchOps.Test
 					batches.Add(itemsBatch);
 					return itemsBatch.Distinct().SelectMany(item => new[]
 					{
-						new KeyValuePair<int, string>(item, "Værdi 0 for " + item),
-						new KeyValuePair<int, string>(item, "Værdi 1 for " + item),
+						new KeyValuePair<int, string>(item, "Value 0 for " + item),
+						new KeyValuePair<int, string>(item, "Value 1 for " + item),
 					}).ToList();
 				}, v => v.Key, 100);
 
@@ -94,8 +94,8 @@ namespace BatchOps.Test
 				ToList();
 
 			string[] expected = {
-				"Værdi 0 for 5_Værdi 1 for 5_Værdi 0 for 3_Værdi 1 for 3",
-				"Værdi 0 for 5_Værdi 1 for 5_Værdi 0 for 2_Værdi 1 for 2",
+				"Value 0 for 5_Value 1 for 5_Value 0 for 3_Value 1 for 3",
+				"Value 0 for 5_Value 1 for 5_Value 0 for 2_Value 1 for 2",
 			};
 			//List<string> expected = keysets.SelectMany(arr => arr).Distinct().Select(key => new[] {0,1}.Select((k, idx) => "Værdi " + idx + " for " + key).StringJoin("_")).ToList();
 			Console.WriteLine("Items: " + string.Join("; ", results));
@@ -114,7 +114,7 @@ namespace BatchOps.Test
 				lookupManager.LookupMultiple(keys, itemsBatch => {
 					batches.Add(itemsBatch);
 					return itemsBatch.
-						Select(item => new KeyValuePair<int, string>(item, "Værdi for " + item)).
+						Select(item => new KeyValuePair<int, string>(item, "Value for " + item)).
 						ToList();
 				}, v => v.Key, 100);
 
@@ -126,7 +126,7 @@ namespace BatchOps.Test
 				BatchLookupResolve(lookupManager).
 				ToList();
 
-			List<string> expected = keysets.Select(keys => keys.Select(k => "Værdi for " + k).StringJoin("_")).ToList();
+			List<string> expected = keysets.Select(keys => keys.Select(k => "Value for " + k).StringJoin("_")).ToList();
 			Console.WriteLine("Items: " + string.Join("; ", results));
 			AreEqualSequences(expected, results);
 			AreEqual("5,3,5,2", batches.Select(b => b.Select(i => i.ToString()).StringJoin(",")).StringJoin(" "));
@@ -138,7 +138,7 @@ namespace BatchOps.Test
 			var lookupManager = new BatchLookupManager();
 			Func<int, Task<KeyValuePair<int, string>>> GetSingle_Batched = (key) =>
 				lookupManager.LookupNullable(key,
-					itemsBatch => itemsBatch.Select(item => new KeyValuePair<int, string>(item, "Værdi for " + item)).ToList(),
+					itemsBatch => itemsBatch.Select(item => new KeyValuePair<int, string>(item, "Value for " + item)).ToList(),
 					v => v.Key, 100);
 
 			{
@@ -166,7 +166,7 @@ namespace BatchOps.Test
 			Func<int, Task<KeyValuePair<int, string>>> GetSingle_Batched = key =>
 				lookupManager.LookupNullable(key, itemsBatch => {
 					batches.Add(itemsBatch);
-					return itemsBatch.Select(item => new KeyValuePair<int, string>(item, "Værdi for " + item)).ToList();
+					return itemsBatch.Select(item => new KeyValuePair<int, string>(item, "Value for " + item)).ToList();
 				}, v => v.Key, 4);
 
 			List<string> results = items.
@@ -177,7 +177,7 @@ namespace BatchOps.Test
 				BatchLookupResolve(lookupManager).
 				ToList();
 
-			List<string> expected = items.Select(item => "Værdi for " + item).ToList();
+			List<string> expected = items.Select(item => "Value for " + item).ToList();
 			Console.WriteLine("Items: " + string.Join("; ", results));
 			AreEqualSequences(expected, results);
 			AreEqualSequences(new[] { "0,1,2,3", "4,5,6,7", "8,9" },
@@ -194,7 +194,7 @@ namespace BatchOps.Test
 			Func<int, Task<KeyValuePair<int, string>>> GetSingle_Batched = key =>
 				lookupManager.LookupNullable(key, itemsBatch => {
 					batches.Add(itemsBatch);
-					return itemsBatch.Select(item => new KeyValuePair<int, string>(item, "Værdi for " + item)).ToList();
+					return itemsBatch.Select(item => new KeyValuePair<int, string>(item, "Value for " + item)).ToList();
 				}, v => v.Key, 100);
 
 			List<string> results = items.
@@ -206,7 +206,7 @@ namespace BatchOps.Test
 				BatchLookupResolve(lookupManager).
 				ToList();
 
-			List<string> expected = items.Select(item => "Værdi for " + item + "Værdi for " + (item + 100)).ToList();
+			List<string> expected = items.Select(item => "Value for " + item + "Value for " + (item + 100)).ToList();
 			Console.WriteLine("Items: " + string.Join("; ", results));
 			Console.WriteLine("expected: " + string.Join("; ", results));
 			AreEqualSequences(expected, results);
@@ -221,13 +221,13 @@ namespace BatchOps.Test
 
 			List<string> results = items.
 				Select(async item => {
-					string val = "Værdi for " + item;
+					string val = "Value for " + item;
 					return val;
 				}).
 				BatchLookupResolve(lookupManager).
 				ToList();
 
-			List<string> expected = items.Select(item => "Værdi for " + item).ToList();
+			List<string> expected = items.Select(item => "Value for " + item).ToList();
 			Console.WriteLine("Items: " + string.Join("; ", results));
 			AreEqualSequences(expected, results);
 		}
@@ -241,7 +241,7 @@ namespace BatchOps.Test
 			Func<int, Task<KeyValuePair<int, string>>> GetSingle_Batched = key =>
 				lookupManager.LookupNullable(key,
 					itemsBatch => {
-						return itemsBatch.Select(item => new KeyValuePair<int, string>(item, "Værdi for " + item)).ToList();
+						return itemsBatch.Select(item => new KeyValuePair<int, string>(item, "Value for " + item)).ToList();
 					},
 					v => v.Key, 100);
 
@@ -249,13 +249,13 @@ namespace BatchOps.Test
 				Select(async item => {
 					var kvp = await GetSingle_Batched(item);
 					if (item == 5)
-						throw new ApplicationException("Lad os sige at den fejler.");
+						throw new ApplicationException("Let's pretend it fails");
 					return kvp.Value;
 				}).
 				BatchLookupResolve(lookupManager);
 
 			var ex = Throws<ApplicationException>(() => results.ToList());
-			Assert.That(ex.Message, Is.StringContaining("Lad os sige at den fejler."));
+			Assert.That(ex.Message, Does.Contain("Let's pretend it fails"));
 		}
 
 		private sealed class Error_KeyNotFound_LookupManager : BatchLookupManager
@@ -273,7 +273,7 @@ namespace BatchOps.Test
 			Func<int, Task<KeyValuePair<int, string>>> GetSingle_Batched =
 				key =>
 					lookupManager.Lookup(key,
-						itemsBatch => new[] { 123 }.Select(item => new KeyValuePair<int, string>(item, "Værdi for " + item)).ToList(),
+						itemsBatch => new[] { 123 }.Select(item => new KeyValuePair<int, string>(item, "Value for " + item)).ToList(),
 						v => v.Key, 100);
 
 			var results = items.
@@ -284,7 +284,7 @@ namespace BatchOps.Test
 				BatchLookupResolve(lookupManager);
 
 			var ex = Throws<ApplicationException>(() => results.ToList());
-			Assert.That(ex.Message, Is.StringContaining("oh noes"));
+			Assert.That(ex.Message, Does.Contain("oh noes"));
 		}
 
 		[Test]
@@ -297,7 +297,7 @@ namespace BatchOps.Test
 			Func<int, Task<KeyValuePair<int, string>>> GetSingle_Batched = key =>
 				lookupManager.LookupNullable(key, itemsBatch => {
 					batches.Add(itemsBatch);
-					throw new ApplicationException("Fejl i opslag");
+					throw new ApplicationException("Error in loookup");
 					return itemsBatch.Select(item => new KeyValuePair<int, string>(item, "Værdi for " + item)).ToList();
 				}, v => v.Key, 100);
 
@@ -309,7 +309,7 @@ namespace BatchOps.Test
 				BatchLookupResolve(lookupManager);
 
 			var ex = Throws<ApplicationException>(() => results.ToList());
-			Assert.That(ex.Message, Is.StringContaining("Fejl i opslag"));
+			Assert.That(ex.Message, Is.StringContaining("Error in loookup"));
 		}
 
 		[Test]
@@ -320,7 +320,7 @@ namespace BatchOps.Test
 
 			List<string> results = items.
 				Select(async item => {
-					// configureawait false er vigtig, for vi kan (pt?) ikke vente på en task, samtidig med at sync ctx pumper beskeder.
+					// configureawait is important because we cannot (currently?) wait for a task while the sync ctx is pumping messages.
 					await Task.Delay(10).ConfigureAwait(false);
 					string val = "Værdi for " + item;
 					return val;
