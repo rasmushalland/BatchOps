@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ClrBasics")]
+[assembly: AssemblyTitle("BatchOps")]
 [assembly: AssemblyDescription("Provides optimized and specialized versions of String and ToLookup.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Rasmus Halland")]
-[assembly: AssemblyProduct("ClrMachineCode")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyProduct("BatchOps")]
+[assembly: AssemblyCopyright("Copyright © Rasmus Halland 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

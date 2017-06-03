@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClrBasics", "ClrBasics\ClrBasics.csproj", "{CA53BFAE-3A94-401C-A1FC-6ABA3AE8ACED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BatchOps", "ClrBasics\BatchOps.csproj", "{CA53BFAE-3A94-401C-A1FC-6ABA3AE8ACED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClrBasics.Test", "ClrBasics.Test\ClrBasics.Test.csproj", "{51667D6C-2076-4F44-8206-32D3C90CB6D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BatchOps.Test", "ClrBasics.Test\BatchOps.Test.csproj", "{51667D6C-2076-4F44-8206-32D3C90CB6D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
