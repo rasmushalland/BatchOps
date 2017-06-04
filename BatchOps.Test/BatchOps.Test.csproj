@@ -7,8 +7,8 @@
     <ProjectGuid>{51667D6C-2076-4F44-8206-32D3C90CB6D3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ClrBasics.Test</RootNamespace>
-    <AssemblyName>ClrBasics.Test</AssemblyName>
+    <RootNamespace>BatchOps.Test</RootNamespace>
+    <AssemblyName>BatchOps.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -52,6 +52,7 @@
     <Compile Include="BatchLookupTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTestBase.cs" />
+    <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

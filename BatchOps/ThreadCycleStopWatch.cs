@@ -35,7 +35,7 @@ namespace BatchOps
 			ulong cycleTime;
 			var res = QueryThreadCycleTime(threadHandle, out cycleTime);
 			if (res == 0)
-				throw new ApplicationException("QueryThreadCycleTime error result " + res);
+				throw new Exception("QueryThreadCycleTime error result " + res);
 			return cycleTime;
 		}
 

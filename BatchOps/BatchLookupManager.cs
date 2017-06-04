@@ -94,12 +94,13 @@ namespace BatchOps
 		/// </summary>
 		public Task<IReadOnlyList<TValue>> LookupCollection<TKey, TValue>(TKey key, Func<IReadOnlyList<TKey>, IReadOnlyList<TValue>> lookupFunc, Func<TValue, TKey> keySelector, int preferredBatchSize)
 		{
-			int index = _lookupFuncs.IndexOf(lookupFunc.Method);
+			var methodInfo = lookupFunc.GetMethodInfo();
+			int index = _lookupFuncs.IndexOf(methodInfo);
 			BatchListLookup<TKey, TValue> batchLookup;
 			if (index == -1)
 			{
 				batchLookup = new BatchListLookup<TKey, TValue>(lookupFunc, keySelector, preferredBatchSize);
-				_lookupFuncs.Add(lookupFunc.Method);
+				_lookupFuncs.Add(methodInfo);
 				_batchLookups.Add(batchLookup);
 			}
 			else
@@ -110,12 +111,13 @@ namespace BatchOps
 
 		public Task<IReadOnlyList<TValue>> LookupCollection<TKey, TValue>(IReadOnlyList<TKey> keys, Func<IReadOnlyList<TKey>, IReadOnlyList<TValue>> lookupFunc, Func<TValue, TKey> keySelector, int preferredBatchSize)
 		{
-			int index = _lookupFuncs.IndexOf(lookupFunc.Method);
+			var methodInfo = lookupFunc.GetMethodInfo();
+			int index = _lookupFuncs.IndexOf(methodInfo);
 			BatchListLookup<TKey, TValue> batchLookup;
 			if (index == -1)
 			{
 				batchLookup = new BatchListLookup<TKey, TValue>(lookupFunc, keySelector, preferredBatchSize);
-				_lookupFuncs.Add(lookupFunc.Method);
+				_lookupFuncs.Add(methodInfo);
 				_batchLookups.Add(batchLookup);
 			}
 			else
@@ -126,7 +128,8 @@ namespace BatchOps
 
 		public Task<IReadOnlyList<TValue>> LookupMultiple<TKey, TValue>(IReadOnlyList<TKey> keys, Func<IReadOnlyList<TKey>, IReadOnlyList<TValue>> lookupFunc, Func<TValue, TKey> keySelector, int preferredBatchSize)
 		{
-			int index = _lookupFuncs.IndexOf(lookupFunc.Method);
+			var methodInfo = lookupFunc.GetMethodInfo();
+			int index = _lookupFuncs.IndexOf(methodInfo);
 			BatchLookup<TKey, TValue> batchLookup;
 			if (index == -1)
 			{
@@ -137,7 +140,7 @@ namespace BatchOps
 						dict[keySelector(value)] = value;
 					return dict;
 				}, preferredBatchSize, default(TValue));
-				_lookupFuncs.Add(lookupFunc.Method);
+				_lookupFuncs.Add(methodInfo);
 				_batchLookups.Add(batchLookup);
 			}
 			else
@@ -165,12 +168,13 @@ namespace BatchOps
 
 		private Task<TValue> LookupImpl<TKey, TValue>(Func<IReadOnlyList<TKey>, IReadOnlyList<TValue>> lookupFunc, Func<TValue, TKey> keySelector, int preferredBatchSize, TKey key, bool throwOnNotFound)
 		{
-			int index = _lookupFuncs.IndexOf(lookupFunc.Method);
+			var methodInfo = lookupFunc.GetMethodInfo();
+			int index = _lookupFuncs.IndexOf(methodInfo);
 			BatchLookup<TKey, TValue> batchLookup;
 			if (index == -1)
 			{
 				batchLookup = new BatchLookup<TKey, TValue>(keys => lookupFunc(keys).ToDictionary(keySelector), preferredBatchSize, default(TValue));
-				_lookupFuncs.Add(lookupFunc.Method);
+				_lookupFuncs.Add(methodInfo);
 				_batchLookups.Add(batchLookup);
 			}
 			else
